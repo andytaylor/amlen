@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.apache.activemq</groupId>
+   <artifactId>amlen-pom</artifactId>
+   <packaging>pom</packaging>
+   <version>1.0.0-SNAPSHOT</version>
+
+   <properties>
+      <d3.version>7.1.1</d3.version>
+      <jackson.version>2.12.3</jackson.version>
+      <openliberty.version>21.0.0.2</openliberty.version>
+      <dojo.version>1.16.3</dojo.version>
+      <gridx.version>1.3.9</gridx.version>
+      <icu4j.version>69-1</icu4j.version>
+      <icu4j.jar.version>69_1</icu4j.jar.version>
+      <fscontext.version>4.4.2</fscontext.version>
+      <jms.version>2.0.1</jms.version>
+      <providerutil.version>1.2</providerutil.version>
+      <antcontrib.version>1.0b3</antcontrib.version>
+      <maven.build.timestamp.format>yyMMdd-HHmm</maven.build.timestamp.format>
+      <buildNumber>${maven.build.timestamp}</buildNumber>
+   </properties>
+
+   <dependencies>
+      <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-annotations</artifactId>
+         <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-core</artifactId>
+         <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
+         <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.fasterxml.jackson.jaxrs</groupId>
+         <artifactId>jackson-jaxrs-base</artifactId>
+         <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.fasterxml.jackson.jaxrs</groupId>
+         <artifactId>jackson-jaxrs-json-provider</artifactId>
+         <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.fasterxml.jackson.module</groupId>
+         <artifactId>jackson-module-jaxb-annotations</artifactId>
+         <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>io.openliberty</groupId>
+         <artifactId>openliberty-runtime</artifactId>
+         <version>${openliberty.version}</version>
+         <type>zip</type>
+      </dependency>
+      <dependency>
+         <groupId>com.sun.messaging.mq</groupId>
+         <artifactId>fscontext</artifactId>
+         <version>${fscontext.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>javax.jms</groupId>
+         <artifactId>javax.jms-api</artifactId>
+         <version>${jms.version}</version>
+      </dependency>
+   </dependencies>
+
+   <profiles>
+      <profile>
+         <id>copy-libs</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>com.googlecode.maven-download-plugin</groupId>
+                  <artifactId>download-maven-plugin</artifactId>
+                  <version>1.3.0</version>
+                  <executions>
+                     <execution>
+                        <!-- the wget goal actually binds itself to this phase by default -->
+                        <phase>process-resources</phase>
+                        <goals>
+                           <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                           <url>https://registry.npmjs.org/d3/-/d3-${d3.version}.tgz</url>
+                           <outputFileName>d3.tgz</outputFileName>
+                           <!-- default target location, just to demonstrate the parameter -->
+                           <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>com.googlecode.maven-download-plugin</groupId>
+                  <artifactId>download-maven-plugin</artifactId>
+                  <version>1.3.0</version>
+                  <executions>
+                     <execution>
+                        <!-- the wget goal actually binds itself to this phase by default -->
+                        <phase>process-resources</phase>
+                        <goals>
+                           <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                           <url>https://download.dojotoolkit.org/release-${dojo.version}/dojo-release-${dojo.version}-src.zip</url>
+                           <outputFileName>src.zip_</outputFileName>
+                           <!-- default target location, just to demonstrate the parameter -->
+                           <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>com.googlecode.maven-download-plugin</groupId>
+                  <artifactId>download-maven-plugin</artifactId>
+                  <version>1.3.0</version>
+                  <executions>
+                     <execution>
+                        <!-- the wget goal actually binds itself to this phase by default -->
+                        <phase>process-resources</phase>
+                        <goals>
+                           <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                           <url>https://github.com/oria/gridx/archive/refs/tags/v${gridx.version}.zip</url>
+                           <outputFileName>gridx-webui-${gridx.version}.zip</outputFileName>
+                           <!-- default target location, just to demonstrate the parameter -->
+                           <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>com.googlecode.maven-download-plugin</groupId>
+                  <artifactId>download-maven-plugin</artifactId>
+                  <version>1.3.0</version>
+                  <executions>
+                     <execution>
+                        <!-- the wget goal actually binds itself to this phase by default -->
+                        <phase>process-resources</phase>
+                        <goals>
+                           <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                           <url>https://github.com/unicode-org/icu/releases/download/release-${icu4j.version}/icu4j-${icu4j.jar.version}.jar</url>
+                           <outputFileName>gridx-webui-${gridx.version}.zip</outputFileName>
+                           <!-- default target location, just to demonstrate the parameter -->
+                           <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+               <artifactId>maven-dependency-plugin</artifactId>
+               <executions>
+                  <execution>
+                     <phase>install</phase>
+                     <goals>
+                        <goal>copy-dependencies</goal>
+                     </goals>
+                     <configuration>
+                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        <excludeArtifactIds>ant-contrib</excludeArtifactIds>
+                     </configuration>
+                  </execution>
+               </executions>
+            </plugin>
+         </plugins>
+         </build>
+      </profile>
+      <profile>
+         <id>build</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-antrun-plugin</artifactId>
+                  <version>3.0.0</version>
+                  <executions>
+                     <execution>
+                        <phase>install</phase>
+                        <configuration>
+                           <target>
+                              <property name="BUILD_LABEL" value="${buildNumber}"/>
+                              <property name="SROOT" value="${project.basedir}"/>
+                              <property name="BROOT" value="${project.basedir}"/>
+                              <property name="DEPS_HOME" value="${project.build.directory}/lib"/>
+                              <property name="USE_REAL_TRANSLATIONS" value="true"/>
+                              <property name="SLESNORPMS" value="yes"/>
+                              <property name="IMASERVER_BASE_DIR" value="${project.basedir}/rpmtree"/>
+                              <property name="JAVA_HOME" value=""/>
+                              <ant antfile="${basedir}/server_build/build.xml" dir="${project.basedir}/server_build">
+                              </ant>
+                           </target>
+                        </configuration>
+                        <goals>
+                           <goal>run</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+                  <dependencies>
+                     <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>${antcontrib.version}</version>
+                        <exclusions>
+                           <exclusion>
+                              <artifactId>ant</artifactId>
+                              <groupId>ant</groupId>
+                           </exclusion>
+                        </exclusions>
+                     </dependency>
+                  </dependencies>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
+</project>

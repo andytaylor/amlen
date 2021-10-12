@@ -31,6 +31,19 @@ export JAVA_HOME=<suitable Java 8 SDK e.g. /etc/alternatives/java_sdk>
 cd $SROOT/server_build
 ant -f $SROOT/server_build/build.xml  2>&1 | tee /tmp/ant.log
 ```
+
+###Building Using Maven
+
+To download the libraries run
+```
+mvn install -Pcopy-libs
+```
+
+To build run:
+```
+mvn install -Pbuild
+```
+
 # Using Amlen
 Amlen has evolved from an IBM Product called "IBM WIoTP Message Gateway" and since usage of Amlen
 is very similar, the best source of information is the Message Gateway documentation at:
